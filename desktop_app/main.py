@@ -2339,10 +2339,6 @@ async def check_version(request: CheckVersionRequest = CheckVersionRequest()):
 
 @app.post("/api/login")
 async def login(request: LoginRequest):
-    allowed, msg = check_panel_status()
-    if not allowed:
-        raise HTTPException(status_code=403, detail=msg)
-    """Login user and create session"""
 
     try:
         if request.base_game_id:
