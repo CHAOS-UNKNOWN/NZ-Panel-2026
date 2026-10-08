@@ -34,7 +34,7 @@ android {
         applicationId = "com.theforgotten.nsepanel"
         minSdk = 26
         targetSdk = 35
-        versionCode = 6
+        versionCode = 7
         versionName = "V420.69"
         buildConfigField("boolean", "TEST_MODE", "true")
         buildConfigField("boolean", "DISABLE_REMOTE_SAVE", "true")
