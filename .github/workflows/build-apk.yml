@@ -23,7 +23,7 @@ jobs:
           java-version: '17'
           cache: gradle
 
-      - name: Install Android SDK (cmdline-tools)
+      - name: Install Android SDK (cmdline‑tools)
         run: |
           ANDROID_HOME=$HOME/android-sdk
           mkdir -p "$ANDROID_HOME/cmdline-tools"
@@ -40,6 +40,9 @@ jobs:
       - name: Remove hardcoded Windows JDK path
         run: sed -i '/org.gradle.java.home/d' gradle.properties
 
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
       - name: Build signed release APK
         run: ./gradlew :app:assembleRelease --no-daemon --stacktrace
         env:
@@ -48,6 +51,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: nse-panel-apk
+          name: nse‑panel‑apk
           path: android_app/app/build/outputs/apk/release/*.apk
-          
