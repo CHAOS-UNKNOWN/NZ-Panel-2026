@@ -1,0 +1,45 @@
+name: Build NSe Panel APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: android_app
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        id: java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Install SDK platform 35
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+
+      - name: Remove hardcoded Windows JDK path
+        run: sed -i '/org.gradle.java.home/d' gradle.properties
+
+      - name: Build signed release APK
+        run: ./gradlew :app:assembleRelease --no-daemon --stacktrace
+        env:
+          JAVA_HOME: ${{ steps.java.outputs.path }}
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: nse-panel-apk
+          path: android_app/app/build/outputs/apk/release/*.apk
+          
